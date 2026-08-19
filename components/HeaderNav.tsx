@@ -9,6 +9,8 @@ import {
   Mail,
   MessageSquare,
   Sparkles,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
 import { User, NotificationItem } from '@/lib/types';
 
@@ -21,6 +23,7 @@ interface HeaderNavProps {
   onToggleRole: (role: 'MEMBER' | 'ADMIN') => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onOpenAuth: () => void;
 }
 
 export const HeaderNav: React.FC<HeaderNavProps> = ({
@@ -32,6 +35,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   onToggleRole,
   activeTab,
   setActiveTab,
+  onOpenAuth,
 }) => {
   const [showNotifs, setShowNotifs] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -44,7 +48,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   return (
     <header className="sticky top-0 z-50 px-4 lg:px-8 py-3 bg-black/80 backdrop-blur-3xl border-b border-[#ff2d55]/25 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand Logo - 100% Red & Space Black */}
+        {/* Brand Logo */}
         <div
           className="flex items-center space-x-3 cursor-pointer group"
           onClick={() => setActiveTab('dashboard')}
@@ -63,13 +67,13 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 POKER CLUB
               </span>
             </div>
-            <p className="text-[10px] text-gray-400 tracking-wider">Apple Red & Black Designer OS</p>
+            <p className="text-[10px] text-gray-400 tracking-wider">Apple Red & Black Production OS</p>
           </div>
         </div>
 
-        {/* Center / Right Control Panel */}
+        {/* Center / Right Controls */}
         <div className="flex items-center space-x-3 sm:space-x-4">
-          {/* Red Chip Balance Pill */}
+          {/* Chip Balance Pill */}
           <div className="hidden sm:flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-[#0e0e14] border border-[#ff2d55]/40 shadow-inner">
             <div className="w-5 h-5 rounded-full bg-gradient-to-r from-[#ff375f] to-[#e50914] flex items-center justify-center shadow">
               <Coins className="w-3 h-3 text-white" />
@@ -120,7 +124,6 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               )}
             </button>
 
-            {/* Red Popover */}
             {showNotifs && (
               <div className="absolute right-0 mt-3 w-80 sm:w-96 red-glass-bright p-4 z-50 shadow-2xl rounded-2xl border border-[#ff2d55]/40">
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -166,8 +169,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             )}
           </div>
 
-          {/* User Account Switcher */}
-          <div className="relative">
+          {/* User Account Switcher / Auth */}
+          <div className="relative flex items-center space-x-2">
             <button
               onClick={() => setShowUserDropdown(!showUserDropdown)}
               className="flex items-center space-x-2 p-1 pr-2.5 rounded-full bg-[#0e0e14] border border-[#ff2d55]/40 hover:border-[#ff2d55] transition-all"
@@ -181,10 +184,19 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <ChevronDown className="w-3 h-3 text-gray-400" />
             </button>
 
+            <button
+              onClick={onOpenAuth}
+              className="btn-glass-red p-2 text-xs font-bold flex items-center space-x-1"
+              title="Authenticate / Sign In"
+            >
+              <LogIn className="w-3.5 h-3.5 text-[#ff2d55]" />
+              <span className="hidden lg:inline text-[11px]">Sign In</span>
+            </button>
+
             {showUserDropdown && (
-              <div className="absolute right-0 mt-3 w-64 red-glass p-3 z-50 shadow-2xl rounded-2xl border border-[#ff2d55]/40">
+              <div className="absolute right-0 top-12 w-64 red-glass p-3 z-50 shadow-2xl rounded-2xl border border-[#ff2d55]/40">
                 <p className="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">
-                  Switch Active Account (Demo Mode)
+                  Switch Active User
                 </p>
                 <div className="space-y-1 max-h-60 overflow-y-auto">
                   {allUsers.map((u) => (

@@ -18,6 +18,8 @@ import {
   CreditCard,
   ChevronRight,
   Trophy,
+  Check,
+  LogOut,
 } from 'lucide-react';
 import { User, KycRecord, Transaction, PokerTable, MembershipPlan, NotificationItem } from '@/lib/types';
 import { exportTransactionsPDF, exportTransactionsExcel } from '@/lib/reportExporter';
@@ -32,6 +34,7 @@ interface MemberPortalProps {
   onSubmitKyc: (formData: Partial<KycRecord>) => void;
   onRequestChips: (amount: number, type: 'CHIP_BUY_IN' | 'CHIP_CASH_OUT', method: 'BANK_WIRE' | 'CRYPTO' | 'CASH' | 'VIP_CREDIT') => void;
   onJoinTable: (tableId: string) => void;
+  onLeaveTable?: (tableId: string) => void;
 }
 
 export const MemberPortal: React.FC<MemberPortalProps> = ({
@@ -44,13 +47,14 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
   onSubmitKyc,
   onRequestChips,
   onJoinTable,
+  onLeaveTable,
 }) => {
   const [activeSubTab, setActiveSubTab] = useState<'overview' | 'table_felt' | 'kyc' | 'wallet' | 'tables' | 'membership' | 'notifications'>('overview');
 
   // Selected Table for Oval Visual Room
   const [selectedOvalTable, setSelectedOvalTable] = useState<PokerTable>(tables[0] || {} as any);
 
-  // KYC Form state
+  // KYC Form state + live uploader thumbnail previews
   const [kycForm, setKycForm] = useState({
     fullName: currentUser.name || '',
     dob: kycRecord?.dob || '1990-05-20',
@@ -66,8 +70,8 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
     emergencyContactName: kycRecord?.emergencyContactName || '',
     emergencyContactPhone: kycRecord?.emergencyContactPhone || '',
     referralSource: kycRecord?.referralSource || '',
-    idDocName: kycRecord ? 'Passport_Document_Verified.pdf' : '',
-    selfieName: kycRecord ? 'Selfie_Verification.png' : '',
+    idDocUrl: kycRecord?.idDocUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600',
+    selfieUrl: kycRecord?.selfieUrl || currentUser.avatarUrl,
   });
 
   // Wallet Modal state
@@ -88,12 +92,26 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
     return matchesSearch && matchesType;
   });
 
+  const handleIdDocUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const fakeUrl = URL.createObjectURL(file);
+      setKycForm({ ...kycForm, idDocUrl: fakeUrl });
+    }
+  };
+
+  const handleSelfieUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const fakeUrl = URL.createObjectURL(file);
+      setKycForm({ ...kycForm, selfieUrl: fakeUrl });
+    }
+  };
+
   const handleKycSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmitKyc({
       ...kycForm,
-      idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600',
-      selfieUrl: currentUser.avatarUrl,
     });
     alert('KYC verification package submitted! Compliance status updated to Under Review.');
   };
@@ -108,7 +126,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
 
   return (
     <div className="space-y-6 pb-16 font-sans">
-      {/* Red & Black Sub Navigation */}
+      {/* Sub Navigation Bar */}
       <div className="flex items-center space-x-1.5 overflow-x-auto pb-2 border-b border-[#ff2d55]/25">
         {[
           { id: 'overview', label: 'Overview', icon: Sparkles },
@@ -154,9 +172,8 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
       {/* OVERVIEW TAB */}
       {activeSubTab === 'overview' && (
         <div className="space-y-6">
-          {/* Hero Section: Dribbble Red Metallic Wallet Card + Player Profile */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Dribbble Red Metallic Pass */}
+            {/* Red Metallic Pass */}
             <div className="lg:col-span-2 red-metallic-card p-6 sm:p-8 flex flex-col justify-between space-y-6 border border-[#ff2d55]/40">
               <div className="flex items-center justify-between z-10">
                 <div className="flex items-center space-x-2">
@@ -202,7 +219,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
               </div>
             </div>
 
-            {/* High-Stakes Dribbble Player Stats Widget */}
+            {/* Player Stats Widget */}
             <div className="red-glass p-6 rounded-3xl space-y-4 flex flex-col justify-between border border-[#ff2d55]/30">
               <div className="flex items-center space-x-3">
                 <img
@@ -258,7 +275,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
             </div>
           )}
 
-          {/* Active Live Rooms Quick Grid */}
+          {/* Active Live Rooms */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-bold text-white flex items-center gap-2 font-serif">
@@ -311,7 +328,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
         </div>
       )}
 
-      {/* VISUAL POKER TABLE OVAL ROOM TAB (DRIBBBLE DESIGNER OVAL) */}
+      {/* VISUAL POKER TABLE OVAL ROOM TAB */}
       {activeSubTab === 'table_felt' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 red-glass p-5 rounded-3xl border border-[#ff2d55]/40">
@@ -336,7 +353,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
             </div>
           </div>
 
-          {/* Dribbble Red & Black Oval Table Felt */}
+          {/* Oval Table Felt Layout */}
           <div className="red-glass p-6 md:p-12 rounded-3xl border border-[#ff2d55]/40 flex flex-col items-center justify-center relative overflow-hidden">
             <div className="w-full max-w-3xl h-[380px] sm:h-[440px] red-felt-oval flex flex-col items-center justify-center relative shadow-2xl">
               {/* Table Center Info */}
@@ -346,7 +363,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
                 <div className="text-[10px] text-white font-bold uppercase">{selectedOvalTable.name} • ${selectedOvalTable.smallBlind}/${selectedOvalTable.bigBlind}</div>
               </div>
 
-              {/* Seated Players Grid Positioned Around Table */}
+              {/* Seated Players Grid */}
               {[
                 { pos: 'top-3 left-1/2 -translate-x-1/2', seatNum: 1 },
                 { pos: 'top-16 right-6', seatNum: 2 },
@@ -356,6 +373,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
                 { pos: 'top-16 left-6', seatNum: 6 },
               ].map((seat, idx) => {
                 const player = selectedOvalTable.seatedPlayers[idx];
+                const isCurrentUserSeated = player && player.userId === currentUser.id;
                 return (
                   <div key={idx} className={`absolute ${seat.pos} flex flex-col items-center z-20`}>
                     {player ? (
@@ -370,6 +388,14 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
                         </div>
                         <span className="text-[10px] font-bold text-white whitespace-nowrap">{player.name.split(' ')[0]}</span>
                         <span className="text-[10px] text-[#ff2d55] font-mono font-extrabold">${(player.stack / 1000).toFixed(0)}k</span>
+                        {isCurrentUserSeated && onLeaveTable && (
+                          <button
+                            onClick={() => onLeaveTable(selectedOvalTable.id)}
+                            className="text-[9px] text-red-400 hover:underline mt-0.5"
+                          >
+                            Stand Up
+                          </button>
+                        )}
                       </div>
                     ) : (
                       <button
@@ -396,7 +422,7 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
         </div>
       )}
 
-      {/* KYC VERIFICATION TAB */}
+      {/* KYC VERIFICATION TAB WITH REAL IMAGE PREVIEWS */}
       {activeSubTab === 'kyc' && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 red-glass p-6 rounded-3xl">
@@ -490,9 +516,10 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
               </div>
             </div>
 
+            {/* Image Uploader with Live Previews */}
             <div className="space-y-4">
               <h3 className="text-xs font-bold text-[#ff2d55] uppercase tracking-wider border-b border-[#ff2d55]/20 pb-2">
-                2. Identity Verification & Selfie
+                2. Identity Verification & Real-time Upload Previews
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -520,16 +547,40 @@ export const MemberPortal: React.FC<MemberPortalProps> = ({
                   />
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#000000]/80 border border-dashed border-[#ff2d55]/40 flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#ff2d55] transition-all">
-                  <Upload className="w-6 h-6 text-[#ff2d55] mb-2" />
-                  <span className="text-xs font-bold text-white">Upload Government ID Document</span>
-                  <span className="text-[10px] text-gray-400 mt-1">PDF, JPG, PNG up to 10MB</span>
+                {/* ID Image Upload Box */}
+                <div className="p-4 rounded-2xl bg-[#000000]/80 border border-dashed border-[#ff2d55]/40 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  {kycForm.idDocUrl ? (
+                    <div className="w-full space-y-2">
+                      <img src={kycForm.idDocUrl} alt="ID Document Preview" className="w-full h-32 object-cover rounded-xl border border-[#ff2d55]/40" />
+                      <span className="text-[10px] text-emerald-400 font-bold flex items-center justify-center gap-1">
+                        <Check className="w-3 h-3" /> Government Document Attached
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload className="w-6 h-6 text-[#ff2d55] mb-2" />
+                      <span className="text-xs font-bold text-white">Upload ID Document</span>
+                    </>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleIdDocUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#000000]/80 border border-dashed border-[#ff2d55]/40 flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#ff2d55] transition-all">
-                  <Camera className="w-6 h-6 text-emerald-400 mb-2" />
-                  <span className="text-xs font-bold text-white">Live Selfie Verification</span>
-                  <span className="text-[10px] text-gray-400 mt-1">Front photo holding ID document</span>
+                {/* Selfie Upload Box */}
+                <div className="p-4 rounded-2xl bg-[#000000]/80 border border-dashed border-[#ff2d55]/40 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                  {kycForm.selfieUrl ? (
+                    <div className="w-full space-y-2">
+                      <img src={kycForm.selfieUrl} alt="Selfie Preview" className="w-full h-32 object-cover rounded-xl border border-emerald-500/40" />
+                      <span className="text-[10px] text-emerald-400 font-bold flex items-center justify-center gap-1">
+                        <Check className="w-3 h-3" /> Selfie Verification Attached
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      <Camera className="w-6 h-6 text-emerald-400 mb-2" />
+                      <span className="text-xs font-bold text-white">Upload Live Selfie</span>
+                    </>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleSelfieUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
                 </div>
               </div>
             </div>
