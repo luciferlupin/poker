@@ -113,7 +113,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     { day: 'Sun', volume: 490000, chips: 780000 },
   ];
 
-  const pieColors = ['#f5d061', '#00f0a8', '#3b82f6', '#ec4899'];
+  const pieColors = ['#ff2d55', '#ff375f', '#e50914', '#b30012'];
   const chartPieData = memberships.map((m) => ({
     name: m.name,
     value: m.activeMembersCount,
@@ -161,8 +161,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   return (
     <div className="space-y-6 pb-16 font-sans">
-      {/* Admin 24k Gold Navigation Tabs */}
-      <div className="flex items-center space-x-1.5 overflow-x-auto pb-2 border-b border-[#f5d061]/25">
+      {/* Admin Red Navigation Tabs */}
+      <div className="flex items-center space-x-1.5 overflow-x-auto pb-2 border-b border-[#ff2d55]/25">
         {[
           { id: 'analytics', label: 'Executive Analytics', icon: TrendingUp },
           { id: 'kyc', label: 'KYC Queue', icon: ShieldCheck, badge: kycRecords.filter((k) => k.status === 'PENDING').length },
@@ -182,14 +182,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               onClick={() => setActiveAdminTab(tab.id as any)}
               className={`flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 ${
                 isActive
-                  ? 'btn-24k-gold text-[#050608] shadow-lg shadow-[#f5d061]/30'
+                  ? 'btn-red-pill text-white shadow-lg shadow-[#ff2d55]/30'
                   : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#050608]' : 'text-gray-400'}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-gray-400'}`} />
               <span>{tab.label}</span>
               {tab.badge !== undefined && tab.badge > 0 && (
-                <span className="px-2 py-0.5 rounded-full bg-[#00f0a8] text-black font-extrabold text-[9px]">
+                <span className="px-2 py-0.5 rounded-full bg-[#ff2d55] text-white font-extrabold text-[9px]">
                   {tab.badge}
                 </span>
               )}
@@ -203,10 +203,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           {/* Key Metric Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="gold-glass p-5 rounded-3xl space-y-2 border border-[#f5d061]/30">
+            <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
                 <span>Total Club Members</span>
-                <Users className="w-4 h-4 text-[#f5d061]" />
+                <Users className="w-4 h-4 text-[#ff2d55]" />
               </div>
               <div className="text-3xl font-extrabold text-white font-mono">{analytics.totalMembers}</div>
               <div className="text-[10px] text-emerald-400 font-bold">
@@ -214,7 +214,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
             </div>
 
-            <div className="gold-glass p-5 rounded-3xl space-y-2 border border-[#f5d061]/30">
+            <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
                 <span>Pending KYC</span>
                 <ShieldAlert className="w-4 h-4 text-amber-400" />
@@ -223,18 +223,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <p className="text-[10px] text-gray-400">Under review in queue</p>
             </div>
 
-            <div className="gold-glass p-5 rounded-3xl space-y-2 border border-[#f5d061]/30">
+            <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
                 <span>Chips Circulation</span>
-                <Coins className="w-4 h-4 text-[#f5d061]" />
+                <Coins className="w-4 h-4 text-[#ff2d55]" />
               </div>
-              <div className="text-3xl font-extrabold text-gold-24k font-mono">
+              <div className="text-3xl font-extrabold text-[#ff2d55] font-mono">
                 ${(analytics.totalChipsCirculation / 1000).toFixed(0)}k
               </div>
               <p className="text-[10px] text-gray-400">Total player balance</p>
             </div>
 
-            <div className="gold-glass p-5 rounded-3xl space-y-2 border border-[#f5d061]/30">
+            <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
                 <span>Monthly Revenue</span>
                 <DollarSign className="w-4 h-4 text-emerald-400" />
@@ -248,33 +248,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           {/* Visual Charts */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 gold-glass p-6 rounded-3xl space-y-4 border border-[#f5d061]/30">
+            <div className="lg:col-span-2 red-glass p-6 rounded-3xl space-y-4 border border-[#ff2d55]/30">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-white font-serif">7-Day Chip Circulation & Volume</h3>
                   <p className="text-xs text-gray-400">Throughput transaction analysis</p>
                 </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-[#f5d061]/20 text-[#f5d061] font-mono font-bold">
+                <span className="text-xs px-2.5 py-1 rounded-full bg-[#ff2d55]/20 text-[#ff2d55] font-mono font-bold">
                   Weekly
                 </span>
               </div>
               <div className="h-64 w-full pt-4">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartLineData}>
-                    <XAxis dataKey="day" stroke="#626c85" fontSize={11} />
-                    <YAxis stroke="#626c85" fontSize={11} tickFormatter={(v) => `$${v / 1000}k`} />
+                    <XAxis dataKey="day" stroke="#686873" fontSize={11} />
+                    <YAxis stroke="#686873" fontSize={11} tickFormatter={(v) => `$${v / 1000}k`} />
                     <Tooltip
-                      contentStyle={{ backgroundColor: '#050608', borderColor: '#f5d061', borderRadius: '14px' }}
-                      labelStyle={{ color: '#f5d061', fontWeight: 'bold' }}
+                      contentStyle={{ backgroundColor: '#000000', borderColor: '#ff2d55', borderRadius: '14px' }}
+                      labelStyle={{ color: '#ff2d55', fontWeight: 'bold' }}
                     />
-                    <Line type="monotone" dataKey="chips" stroke="#f5d061" strokeWidth={3} dot={{ r: 4 }} />
-                    <Line type="monotone" dataKey="volume" stroke="#00f0a8" strokeWidth={2} strokeDasharray="3 3" />
+                    <Line type="monotone" dataKey="chips" stroke="#ff2d55" strokeWidth={3} dot={{ r: 4 }} />
+                    <Line type="monotone" dataKey="volume" stroke="#ffffff" strokeWidth={2} strokeDasharray="3 3" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            <div className="gold-glass p-6 rounded-3xl space-y-4 flex flex-col justify-between border border-[#f5d061]/30">
+            <div className="red-glass p-6 rounded-3xl space-y-4 flex flex-col justify-between border border-[#ff2d55]/30">
               <div>
                 <h3 className="text-sm font-bold text-white font-serif">Membership Tier Breakdown</h3>
                 <p className="text-xs text-gray-400">Member plan distribution</p>
@@ -287,7 +287,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
                       ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: '#050608', borderColor: '#f5d061' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#000000', borderColor: '#ff2d55' }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -307,7 +307,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* KYC QUEUE TAB */}
       {activeAdminTab === 'kyc' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 gold-glass p-5 rounded-3xl border border-[#f5d061]/30">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
               <h2 className="text-base font-bold text-white font-serif">KYC Verification Queue</h2>
               <p className="text-xs text-gray-400">Inspect submitted identity documents and selfies</p>
@@ -318,12 +318,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 placeholder="Search member..."
                 value={kycSearch}
                 onChange={(e) => setKycSearch(e.target.value)}
-                className="poker-input p-2 text-xs"
+                className="red-input p-2 text-xs"
               />
               <select
                 value={kycFilterStatus}
                 onChange={(e) => setKycFilterStatus(e.target.value)}
-                className="poker-input p-2 text-xs font-bold"
+                className="red-input p-2 text-xs font-bold"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="PENDING">Pending Review</option>
@@ -333,10 +333,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
           </div>
 
-          <div className="gold-glass p-6 rounded-3xl overflow-x-auto border border-[#f5d061]/30">
+          <div className="red-glass p-6 rounded-3xl overflow-x-auto border border-[#ff2d55]/30">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-[#f5d061]/20 text-gray-400 uppercase text-[10px] tracking-wider">
+                <tr className="border-b border-[#ff2d55]/20 text-gray-400 uppercase text-[10px] tracking-wider">
                   <th className="py-3 px-3">Applicant Name</th>
                   <th className="py-3 px-3">Gov ID Type</th>
                   <th className="py-3 px-3">ID Number</th>
@@ -348,7 +348,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </thead>
               <tbody className="divide-y divide-gray-800/60">
                 {filteredKyc.map((k) => (
-                  <tr key={k.id} className="hover:bg-[#181d2c] transition-all">
+                  <tr key={k.id} className="hover:bg-white/5 transition-all">
                     <td className="py-3 px-3">
                       <div className="font-bold text-white">{k.fullName}</div>
                       <div className="text-[10px] text-gray-400">{k.email}</div>
@@ -368,7 +368,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           setInspectKyc(k);
                           setKycNotesInput(k.notes || '');
                         }}
-                        className="btn-24k-gold text-[11px] px-3 py-1.5 flex items-center gap-1 ml-auto shadow-md"
+                        className="btn-red-pill text-[11px] px-3 py-1.5 flex items-center gap-1 ml-auto shadow-md"
                       >
                         <Eye className="w-3.5 h-3.5" /> Inspect
                       </button>
@@ -384,7 +384,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* MEMBER DIRECTORY TAB */}
       {activeAdminTab === 'users' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 gold-glass p-5 rounded-3xl border border-[#f5d061]/30">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
               <h2 className="text-base font-bold text-white font-serif">Club Member Directory</h2>
               <p className="text-xs text-gray-400">Manage member profiles, balances, and permissions</p>
@@ -394,14 +394,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               placeholder="Search member..."
               value={userSearch}
               onChange={(e) => setUserSearch(e.target.value)}
-              className="poker-input p-2 text-xs"
+              className="red-input p-2 text-xs"
             />
           </div>
 
-          <div className="gold-glass p-6 rounded-3xl overflow-x-auto border border-[#f5d061]/30">
+          <div className="red-glass p-6 rounded-3xl overflow-x-auto border border-[#ff2d55]/30">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-[#f5d061]/20 text-gray-400 uppercase text-[10px] tracking-wider">
+                <tr className="border-b border-[#ff2d55]/20 text-gray-400 uppercase text-[10px] tracking-wider">
                   <th className="py-3 px-3">Member</th>
                   <th className="py-3 px-3">Role</th>
                   <th className="py-3 px-3">VIP Tier</th>
@@ -412,10 +412,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </thead>
               <tbody className="divide-y divide-gray-800/60">
                 {filteredUsers.map((u) => (
-                  <tr key={u.id} className="hover:bg-[#181d2c] transition-all">
+                  <tr key={u.id} className="hover:bg-white/5 transition-all">
                     <td className="py-3 px-3">
                       <div className="flex items-center space-x-3">
-                        <img src={u.avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-[#f5d061]" />
+                        <img src={u.avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-[#ff2d55]" />
                         <div>
                           <div className="font-bold text-white">{u.name}</div>
                           <div className="text-[10px] text-gray-400">{u.playerCode}</div>
@@ -423,7 +423,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       </div>
                     </td>
                     <td className="py-3 px-3 text-gray-300">{u.role}</td>
-                    <td className="py-3 px-3 text-[#f5d061] font-bold">{u.membershipTier}</td>
+                    <td className="py-3 px-3 text-[#ff2d55] font-bold">{u.membershipTier}</td>
                     <td className="py-3 px-3">
                       <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 font-bold">
                         {u.kycStatus}
@@ -433,7 +433,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <td className="py-3 px-3 text-right">
                       <button
                         onClick={() => setChipModalUser(u)}
-                        className="btn-glass-gold text-[11px] px-3 py-1 font-bold"
+                        className="btn-glass-red text-[11px] px-3 py-1 font-bold"
                       >
                         Adjust Chips
                       </button>
@@ -449,25 +449,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* CHIP LEDGER TAB */}
       {activeAdminTab === 'wallet' && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between gold-glass p-5 rounded-3xl border border-[#f5d061]/30">
+          <div className="flex items-center justify-between red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
               <h2 className="text-base font-bold text-white font-serif">Global Chip Ledger</h2>
               <p className="text-xs text-gray-400">Complete audit trail of player chip balances</p>
             </div>
             <div className="flex items-center space-x-2">
-              <button onClick={() => exportTransactionsPDF(transactions)} className="btn-24k-gold text-xs px-3 py-2">
+              <button onClick={() => exportTransactionsPDF(transactions)} className="btn-red-pill text-xs px-3 py-2">
                 <Download className="w-3.5 h-3.5 inline mr-1" /> PDF Export
               </button>
-              <button onClick={() => exportTransactionsExcel(transactions)} className="btn-glass-gold text-xs px-3 py-2 font-bold">
+              <button onClick={() => exportTransactionsExcel(transactions)} className="btn-glass-red text-xs px-3 py-2 font-bold">
                 <Download className="w-3.5 h-3.5 inline mr-1" /> Excel Export
               </button>
             </div>
           </div>
 
-          <div className="gold-glass p-6 rounded-3xl overflow-x-auto border border-[#f5d061]/30">
+          <div className="red-glass p-6 rounded-3xl overflow-x-auto border border-[#ff2d55]/30">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-[#f5d061]/20 text-gray-400 uppercase text-[10px]">
+                <tr className="border-b border-[#ff2d55]/20 text-gray-400 uppercase text-[10px]">
                   <th className="py-3 px-3">TXN Code</th>
                   <th className="py-3 px-3">User Name</th>
                   <th className="py-3 px-3">Type</th>
@@ -479,8 +479,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </thead>
               <tbody className="divide-y divide-gray-800/60">
                 {filteredTransactions.map((t) => (
-                  <tr key={t.id} className="hover:bg-[#181d2c] transition-all">
-                    <td className="py-3 px-3 font-mono font-bold text-[#f5d061]">{t.txnCode}</td>
+                  <tr key={t.id} className="hover:bg-white/5 transition-all">
+                    <td className="py-3 px-3 font-mono font-bold text-[#ff2d55]">{t.txnCode}</td>
                     <td className="py-3 px-3 text-white font-medium">{t.userName}</td>
                     <td className="py-3 px-3 text-gray-300">{t.type.replace(/_/g, ' ')}</td>
                     <td className="py-3 px-3 font-mono font-bold text-white">${t.amount.toLocaleString()}</td>
@@ -498,14 +498,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* POKER ROOM MANAGEMENT TAB */}
       {activeAdminTab === 'tables' && (
         <div className="space-y-6">
-          <div className="flex items-center justify-between gold-glass p-5 rounded-3xl border border-[#f5d061]/30">
+          <div className="flex items-center justify-between red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
               <h2 className="text-base font-bold text-white font-serif">Poker Rooms & Table Stakes</h2>
               <p className="text-xs text-gray-400">Launch new tables and set blind limits</p>
             </div>
             <button
               onClick={() => setShowCreateTableModal(true)}
-              className="btn-24k-gold text-xs px-4 py-2 flex items-center gap-1.5 shadow-lg"
+              className="btn-red-pill text-xs px-4 py-2 flex items-center gap-1.5 shadow-lg"
             >
               <Plus className="w-4 h-4" /> Launch Table
             </button>
@@ -513,21 +513,21 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {tables.map((tbl) => (
-              <div key={tbl.id} className="gold-glass p-6 rounded-3xl space-y-4 border border-[#f5d061]/30">
+              <div key={tbl.id} className="red-glass p-6 rounded-3xl space-y-4 border border-[#ff2d55]/30">
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-base font-bold text-white font-serif">{tbl.name}</h3>
-                    <span className="text-[10px] text-[#f5d061] uppercase font-bold">{tbl.gameType.replace(/_/g, ' ')}</span>
+                    <span className="text-[10px] text-[#ff2d55] uppercase font-bold">{tbl.gameType.replace(/_/g, ' ')}</span>
                   </div>
                   <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">
                     {tbl.status}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-xs bg-[#050608]/80 p-3 rounded-2xl border border-[#f5d061]/20">
+                <div className="grid grid-cols-2 gap-2 text-xs bg-[#000000]/80 p-3 rounded-2xl border border-[#ff2d55]/20">
                   <div>
                     <span className="text-gray-400 text-[10px] block">Blinds</span>
-                    <strong className="text-[#f5d061] font-mono">${tbl.smallBlind} / ${tbl.bigBlind}</strong>
+                    <strong className="text-[#ff2d55] font-mono">${tbl.smallBlind} / ${tbl.bigBlind}</strong>
                   </div>
                   <div>
                     <span className="text-gray-400 text-[10px] block">Buy-In Range</span>
@@ -546,33 +546,33 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {/* REPORTS & COMPLIANCE TAB */}
       {activeAdminTab === 'reports' && (
-        <div className="gold-glass p-6 rounded-3xl space-y-4 border border-[#f5d061]/30">
+        <div className="red-glass p-6 rounded-3xl space-y-4 border border-[#ff2d55]/30">
           <h2 className="text-base font-bold text-white font-serif">Compliance & System Reports</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-            <div className="p-5 rounded-2xl bg-[#050608]/80 border border-[#f5d061]/20 space-y-3">
+            <div className="p-5 rounded-2xl bg-[#000000]/80 border border-[#ff2d55]/20 space-y-3">
               <h4 className="text-xs font-bold text-white">Transactions Audit Ledger</h4>
               <p className="text-xs text-gray-400">Complete log of deposits and cashouts.</p>
               <div className="flex space-x-2">
-                <button onClick={() => exportTransactionsPDF(transactions)} className="btn-24k-gold px-3 py-1.5 text-xs">PDF</button>
-                <button onClick={() => exportTransactionsExcel(transactions)} className="btn-glass-gold px-3 py-1.5 text-xs font-bold">Excel</button>
+                <button onClick={() => exportTransactionsPDF(transactions)} className="btn-red-pill px-3 py-1.5 text-xs">PDF</button>
+                <button onClick={() => exportTransactionsExcel(transactions)} className="btn-glass-red px-3 py-1.5 text-xs font-bold">Excel</button>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#050608]/80 border border-[#f5d061]/20 space-y-3">
+            <div className="p-5 rounded-2xl bg-[#000000]/80 border border-[#ff2d55]/20 space-y-3">
               <h4 className="text-xs font-bold text-white">KYC Compliance Report</h4>
               <p className="text-xs text-gray-400">Identity verification records & notes.</p>
               <div className="flex space-x-2">
-                <button onClick={() => exportKycReportPDF(kycRecords)} className="btn-24k-gold px-3 py-1.5 text-xs">PDF</button>
-                <button onClick={() => exportKycReportExcel(kycRecords)} className="btn-glass-gold px-3 py-1.5 text-xs font-bold">Excel</button>
+                <button onClick={() => exportKycReportPDF(kycRecords)} className="btn-red-pill px-3 py-1.5 text-xs">PDF</button>
+                <button onClick={() => exportKycReportExcel(kycRecords)} className="btn-glass-red px-3 py-1.5 text-xs font-bold">Excel</button>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#050608]/80 border border-[#f5d061]/20 space-y-3">
+            <div className="p-5 rounded-2xl bg-[#000000]/80 border border-[#ff2d55]/20 space-y-3">
               <h4 className="text-xs font-bold text-white">Chip Circulation Report</h4>
               <p className="text-xs text-gray-400">Summary of total member balances.</p>
               <div className="flex space-x-2">
-                <button onClick={() => exportChipCirculationPDF(users)} className="btn-24k-gold px-3 py-1.5 text-xs">PDF</button>
-                <button onClick={() => exportChipCirculationExcel(users)} className="btn-glass-gold px-3 py-1.5 text-xs font-bold">Excel</button>
+                <button onClick={() => exportChipCirculationPDF(users)} className="btn-red-pill px-3 py-1.5 text-xs">PDF</button>
+                <button onClick={() => exportChipCirculationExcel(users)} className="btn-glass-red px-3 py-1.5 text-xs font-bold">Excel</button>
               </div>
             </div>
           </div>
@@ -582,8 +582,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* INSPECT KYC MODAL */}
       {inspectKyc && (
         <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-3xl flex items-center justify-center p-4">
-          <div className="gold-glass-24k p-6 sm:p-8 rounded-3xl max-w-2xl w-full space-y-6 border border-[#f5d061] shadow-2xl">
-            <div className="flex items-center justify-between border-b border-[#f5d061]/20 pb-3">
+          <div className="red-glass-bright p-6 sm:p-8 rounded-3xl max-w-2xl w-full space-y-6 border border-[#ff2d55] shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#ff2d55]/20 pb-3">
               <div>
                 <h3 className="text-base font-bold text-white font-serif">KYC Inspection</h3>
                 <p className="text-xs text-gray-300">{inspectKyc.fullName} ({inspectKyc.email})</p>
@@ -593,8 +593,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase font-bold text-[#f5d061]">Submitted ID Document</span>
-                <img src={inspectKyc.idDocUrl} alt="" className="w-full h-40 object-cover rounded-2xl border border-[#f5d061]/40" />
+                <span className="text-[10px] uppercase font-bold text-[#ff2d55]">Submitted ID Document</span>
+                <img src={inspectKyc.idDocUrl} alt="" className="w-full h-40 object-cover rounded-2xl border border-[#ff2d55]/40" />
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] uppercase font-bold text-emerald-400">Verification Selfie</span>
@@ -617,7 +617,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   onReviewKyc(inspectKyc.id, 'VERIFIED', 'Verified cleanly.');
                   setInspectKyc(null);
                 }}
-                className="btn-24k-gold px-6 py-2 text-xs font-extrabold shadow-lg"
+                className="btn-red-pill px-6 py-2 text-xs font-extrabold shadow-lg"
               >
                 Approve Verification
               </button>
@@ -629,8 +629,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {/* ADJUST CHIPS MODAL */}
       {chipModalUser && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-3xl flex items-center justify-center p-4">
-          <div className="gold-glass-24k p-6 sm:p-8 rounded-3xl max-w-md w-full space-y-6 border border-[#f5d061]">
-            <div className="flex items-center justify-between border-b border-[#f5d061]/20 pb-3">
+          <div className="red-glass-bright p-6 sm:p-8 rounded-3xl max-w-md w-full space-y-6 border border-[#ff2d55]">
+            <div className="flex items-center justify-between border-b border-[#ff2d55]/20 pb-3">
               <h3 className="text-base font-bold text-white font-serif">Chip Adjustment</h3>
               <button onClick={() => setChipModalUser(null)} className="text-gray-400 hover:text-white">✕</button>
             </div>
@@ -648,13 +648,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   min={100}
                   value={chipModalAmount}
                   onChange={(e) => setChipModalAmount(Number(e.target.value))}
-                  className="w-full poker-input p-3 font-bold font-mono text-[#f5d061]"
+                  className="w-full red-input p-3 font-bold font-mono text-[#ff2d55]"
                 />
               </div>
 
               <div className="flex space-x-3 pt-2">
-                <button type="button" onClick={() => setChipModalUser(null)} className="flex-1 btn-glass-gold py-2.5 text-xs font-bold">Cancel</button>
-                <button type="submit" className="flex-1 btn-24k-gold py-2.5 text-xs font-extrabold shadow-lg">Confirm Adjustment</button>
+                <button type="button" onClick={() => setChipModalUser(null)} className="flex-1 btn-glass-red py-2.5 text-xs font-bold">Cancel</button>
+                <button type="submit" className="flex-1 btn-red-pill py-2.5 text-xs font-extrabold shadow-lg">Confirm Adjustment</button>
               </div>
             </form>
           </div>

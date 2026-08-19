@@ -2,27 +2,23 @@
 
 @layer base {
   :root {
-    --poker-obsidian: #050608;
-    --poker-surface: #0a0c12;
-    --poker-card: #11141f;
-    --poker-card-hover: #181d2c;
+    --poker-black: #000000;
+    --poker-surface: #07070a;
+    --poker-card: #0e0e14;
+    --poker-card-hover: #161620;
     
-    --gold-24k-light: #fff0b3;
-    --gold-24k: #f5d061;
-    --gold-24k-mid: #e5b842;
-    --gold-24k-dark: #b38728;
-    
-    --emerald-felt: #0b2b22;
-    --emerald-felt-bright: #00f0a8;
-    --emerald-felt-dark: #051a14;
+    --poker-red: #ff2d55;
+    --poker-red-bright: #ff375f;
+    --poker-red-dark: #e50914;
+    --poker-red-glow: rgba(255, 45, 85, 0.35);
     
     --text-primary: #ffffff;
-    --text-secondary: #9ea7bd;
-    --text-muted: #626c85;
+    --text-secondary: #9e9ea7;
+    --text-muted: #686873;
   }
 
   body {
-    background-color: var(--poker-obsidian);
+    background-color: var(--poker-black);
     color: var(--text-primary);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: -0.015em;
@@ -37,126 +33,118 @@
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #050608;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(245, 208, 97, 0.3);
+  background: rgba(255, 45, 85, 0.4);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(245, 208, 97, 0.6);
+  background: rgba(255, 45, 85, 0.8);
 }
 
-/* 24k Gold Glass & Luxury Cards */
-.gold-glass {
-  background: rgba(17, 20, 31, 0.75);
+/* Dribbble & Apple Red Glass */
+.red-glass {
+  background: rgba(14, 14, 20, 0.75);
   backdrop-filter: blur(28px) saturate(190%);
   -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(245, 208, 97, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 45, 85, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
-.gold-glass-24k {
-  background: linear-gradient(135deg, rgba(245, 208, 97, 0.12) 0%, rgba(17, 20, 31, 0.88) 100%);
+.red-glass-bright {
+  background: linear-gradient(135deg, rgba(255, 45, 85, 0.12) 0%, rgba(14, 14, 20, 0.9) 100%);
   backdrop-filter: blur(28px) saturate(190%);
   -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(245, 208, 97, 0.45);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 240, 179, 0.3);
+  border: 1px solid rgba(255, 45, 85, 0.45);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-/* 24k Metallic Card Pass */
-.gold-metallic-card {
-  background: linear-gradient(135deg, #1c170d 0%, #2b200b 35%, #0f121a 70%, #1a160d 100%);
-  border: 1px solid rgba(245, 208, 97, 0.5);
-  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.9), inset 0 1px 2px rgba(255, 240, 179, 0.4);
+/* Dribbble Red Metallic Wallet Card */
+.red-metallic-card {
+  background: linear-gradient(135deg, #1f0b12 0%, #2e0811 40%, #0c0c12 80%, #170910 100%);
+  border: 1px solid rgba(255, 45, 85, 0.5);
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.25);
   border-radius: 24px;
   position: relative;
   overflow: hidden;
 }
 
-.gold-metallic-card::before {
+.red-metallic-card::before {
   content: '';
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 20%, rgba(245, 208, 97, 0.22) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 20%, rgba(255, 45, 85, 0.2) 0%, transparent 60%);
   pointer-events: none;
 }
 
-/* Visual Oval Poker Table Felt Styling */
-.poker-felt-oval {
-  background: radial-gradient(ellipse at center, #0e3b2f 0%, #061c16 65%, #030d0a 100%);
-  border: 10px solid #1a150c;
-  outline: 2px solid rgba(245, 208, 97, 0.4);
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.85), 0 15px 40px rgba(0, 0, 0, 0.8);
+/* Dribbble Red & Black Oval Poker Table Felt */
+.red-felt-oval {
+  background: radial-gradient(ellipse at center, #1c080d 0%, #0e0508 65%, #050204 100%);
+  border: 10px solid #1a080d;
+  outline: 2px solid rgba(255, 45, 85, 0.5);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.95), 0 15px 50px rgba(255, 45, 85, 0.25);
   border-radius: 120px;
 }
 
-/* 24k Gold Buttons */
-.btn-24k-gold {
-  background: linear-gradient(180deg, #fff0b3 0%, #f5d061 50%, #b38728 100%);
-  color: #050608;
+/* Apple & Dribbble Red Pill Buttons */
+.btn-red-pill {
+  background: linear-gradient(180deg, #ff375f 0%, #ff2d55 60%, #e50914 100%);
+  color: #ffffff;
   font-weight: 700;
   border-radius: 9999px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(245, 208, 97, 0.35);
+  box-shadow: 0 4px 20px rgba(255, 45, 85, 0.4);
 }
 
-.btn-24k-gold:hover {
+.btn-red-pill:hover {
   transform: scale(1.02);
-  box-shadow: 0 6px 25px rgba(245, 208, 97, 0.55);
+  box-shadow: 0 6px 25px rgba(255, 45, 85, 0.6);
   filter: brightness(1.1);
 }
 
-.btn-24k-gold:active {
+.btn-red-pill:active {
   transform: scale(0.98);
 }
 
-.btn-glass-gold {
+.btn-glass-red {
   background: rgba(255, 255, 255, 0.08);
-  color: #f5d061;
-  border: 1px solid rgba(245, 208, 97, 0.3);
+  color: #ffffff;
+  border: 1px solid rgba(255, 45, 85, 0.3);
   border-radius: 9999px;
   backdrop-filter: blur(12px);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-glass-gold:hover {
-  background: rgba(245, 208, 97, 0.15);
-  border-color: rgba(245, 208, 97, 0.6);
-  color: #ffffff;
+.btn-glass-red:hover {
+  background: rgba(255, 45, 85, 0.18);
+  border-color: rgba(255, 45, 85, 0.6);
   transform: scale(1.02);
 }
 
-/* Typography Gradients */
-.text-gold-24k {
-  background: linear-gradient(180deg, #fff0b3 0%, #f5d061 50%, #b38728 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-silver-platinum {
-  background: linear-gradient(180deg, #ffffff 0%, #cfd4e0 100%);
+/* Typography Gradient */
+.text-red-gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #ff375f 60%, #ff2d55 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* Luxury Input Fields */
-.poker-input {
+.red-input {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(245, 208, 97, 0.3);
+  border: 1px solid rgba(255, 45, 85, 0.3);
   border-radius: 14px;
   color: #ffffff;
   transition: all 0.2s ease;
 }
 
-.poker-input:focus {
+.red-input:focus {
   outline: none;
-  border-color: #f5d061;
+  border-color: #ff2d55;
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 4px rgba(245, 208, 97, 0.2);
+  box-shadow: 0 0 0 4px rgba(255, 45, 85, 0.2);
 }
