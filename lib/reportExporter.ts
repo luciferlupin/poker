@@ -139,13 +139,13 @@ export const exportChipCirculationPDF = (users: User[]) => {
     u.role,
     u.membershipTier.replace(/_/g, ' '),
     u.kycStatus,
-    `$${u.chipBalance.toLocaleString()}`,
-    new Date(u.createdAt).toLocaleDateString(),
+    `₹${u.chipBalance.toLocaleString('en-IN')}`,
+    new Date(u.joinedDate || Date.now()).toLocaleDateString(),
   ]);
 
   autoTable(doc, {
     startY: 46,
-    head: [['Player Code', 'Name', 'Role', 'Membership Tier', 'KYC Status', 'Chip Balance', 'Joined Date']],
+    head: [['Player Code', 'Name', 'Role', 'Membership Tier', 'KYC Status', 'Chip Balance (INR)', 'Joined Date']],
     body: tableData,
     headStyles: { fillColor: [13, 59, 46], textColor: [212, 175, 55], fontStyle: 'bold' },
     styles: { fontSize: 8 },
@@ -164,8 +164,8 @@ export const exportChipCirculationExcel = (users: User[]) => {
     Role: u.role,
     'Membership Tier': u.membershipTier,
     'KYC Status': u.kycStatus,
-    'Chip Balance ($)': u.chipBalance,
-    'Registration Date': new Date(u.createdAt).toLocaleString(),
+    'Chip Balance (INR)': u.chipBalance,
+    'Registration Date': new Date(u.joinedDate || Date.now()).toLocaleString(),
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(data);

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ShieldCheck, Upload, Camera, Send, Check, ArrowRight, User as UserIcon, Phone, Mail, FileText } from 'lucide-react';
+import { ShieldCheck, Upload, Camera, Send, Check, ArrowRight } from 'lucide-react';
 import { User, KycRecord } from '@/lib/types';
 
 interface OnboardingWizardProps {
@@ -17,21 +17,21 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
 
   const [form, setForm] = useState({
     fullName: currentUser.name || '',
-    dob: '1992-08-14',
+    dob: '1988-07-14',
     gender: 'MALE' as const,
     phone: currentUser.phone || '',
     email: currentUser.email || '',
-    address: '450 Park Avenue, Suite 22',
-    city: 'New York',
-    state: 'NY',
-    country: 'United States',
-    govIdType: 'PASSPORT' as const,
-    govIdNumber: 'P89302194',
+    address: '14 Marine Drive Penthouse',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    country: 'India',
+    govIdType: 'AADHAAR' as const,
+    govIdNumber: '9928-1102-4491',
     idDocUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600',
     selfieUrl: currentUser.avatarUrl,
-    emergencyContactName: 'Viktor Rostova',
-    emergencyContactPhone: '+1 (555) 293-8899',
-    referralSource: 'Founding Member Invitation',
+    emergencyContactName: 'Priya Oberoi',
+    emergencyContactPhone: '+91 98111 22335',
+    referralSource: 'Vikramaditya Singhania',
   });
 
   const handleIdUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,10 +61,10 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
           <ShieldCheck className="w-6 h-6 text-[#ff2d55]" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-serif">
-          Member KYC & Profile Onboarding
+          Indian Member Aadhaar & PAN KYC Onboarding
         </h1>
         <p className="text-xs text-gray-400 max-w-lg mx-auto">
-          Welcome to Monaco Royal Poker Club. Complete your profile and identity verification below to unlock full access to the high-stakes poker dashboard.
+          Welcome to Monaco Royal India VIP Club. Complete your profile and identity verification below to unlock full access to the high-stakes poker dashboard.
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
       <div className="flex items-center justify-between apple-glass p-4 rounded-2xl border border-[#ff2d55]/30">
         {[
           { num: 1, label: 'Personal Info' },
-          { num: 2, label: 'Gov ID & Selfie' },
+          { num: 2, label: 'Aadhaar / PAN & Selfie' },
           { num: 3, label: 'Emergency Contact' },
         ].map((s) => (
           <div key={s.num} className="flex items-center space-x-2">
@@ -123,7 +123,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1">Mobile Number</label>
+                <label className="text-gray-400 block mb-1">Mobile Number (+91)</label>
                 <input
                   type="text"
                   required
@@ -142,13 +142,23 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                   className="w-full red-input p-3"
                 />
               </div>
-              <div className="sm:col-span-2">
-                <label className="text-gray-400 block mb-1">Street Address</label>
+              <div>
+                <label className="text-gray-400 block mb-1">City</label>
                 <input
                   type="text"
                   required
-                  value={form.address}
-                  onChange={(e) => setForm({ ...form, address: e.target.value })}
+                  value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })}
+                  className="w-full red-input p-3"
+                />
+              </div>
+              <div>
+                <label className="text-gray-400 block mb-1">State</label>
+                <input
+                  type="text"
+                  required
+                  value={form.state}
+                  onChange={(e) => setForm({ ...form, state: e.target.value })}
                   className="w-full red-input p-3"
                 />
               </div>
@@ -170,25 +180,25 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
         {step === 2 && (
           <div className="space-y-4">
             <h3 className="text-sm font-bold text-[#ff2d55] border-b border-white/10 pb-2">
-              Step 2: Government ID & Live Selfie Verification
+              Step 2: Aadhaar Card / PAN Card & Live Selfie
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="text-gray-400 block mb-1">Government ID Type</label>
+                <label className="text-gray-400 block mb-1">Gov ID Type</label>
                 <select
                   value={form.govIdType}
                   onChange={(e) => setForm({ ...form, govIdType: e.target.value as any })}
                   className="w-full red-input p-3 font-bold"
                 >
-                  <option value="PASSPORT">Passport</option>
-                  <option value="DRIVING_LICENSE">Driving License</option>
-                  <option value="NATIONAL_ID">National ID Card</option>
-                  <option value="STATE_ID">State Issued ID</option>
+                  <option value="AADHAAR">Aadhaar Card (12-Digit)</option>
+                  <option value="PAN_CARD">PAN Card (10-Digit Alphanumeric)</option>
+                  <option value="DRIVING_LICENSE">Indian Driving Licence</option>
+                  <option value="PASSPORT">Indian Passport</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-gray-400 block mb-1">Serial / Document Number</label>
+                <label className="text-gray-400 block mb-1">Aadhaar / PAN Serial Number</label>
                 <input
                   type="text"
                   required
@@ -202,15 +212,15 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
               <div className="p-4 rounded-2xl bg-black/80 border border-dashed border-[#ff2d55]/40 flex flex-col items-center justify-center text-center relative overflow-hidden">
                 {form.idDocUrl ? (
                   <div className="w-full space-y-2">
-                    <img src={form.idDocUrl} alt="ID Document Preview" className="w-full h-32 object-cover rounded-xl border border-[#ff2d55]/40" />
+                    <img src={form.idDocUrl} alt="ID Preview" className="w-full h-32 object-cover rounded-xl border border-[#ff2d55]/40" />
                     <span className="text-[10px] text-emerald-400 font-bold flex items-center justify-center gap-1">
-                      <Check className="w-3 h-3" /> ID Document Attached
+                      <Check className="w-3 h-3" /> Aadhaar/PAN Document Attached
                     </span>
                   </div>
                 ) : (
                   <>
                     <Upload className="w-6 h-6 text-[#ff2d55] mb-2" />
-                    <span className="text-xs font-bold text-white">Upload Government ID</span>
+                    <span className="text-xs font-bold text-white">Upload Aadhaar / PAN Document</span>
                   </>
                 )}
                 <input type="file" accept="image/*" onChange={handleIdUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
@@ -272,7 +282,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1">Emergency Contact Phone</label>
+                <label className="text-gray-400 block mb-1">Emergency Contact Phone (+91)</label>
                 <input
                   type="text"
                   required
@@ -282,7 +292,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="text-gray-400 block mb-1">Sponsor or Referral Source</label>
+                <label className="text-gray-400 block mb-1">Sponsor / Member Referral</label>
                 <input
                   type="text"
                   value={form.referralSource}

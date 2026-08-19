@@ -140,7 +140,7 @@ export default function Home() {
   const handleRequestChips = (
     amount: number,
     type: 'CHIP_BUY_IN' | 'CHIP_CASH_OUT',
-    method: 'BANK_WIRE' | 'CRYPTO' | 'CASH' | 'VIP_CREDIT'
+    method: any
   ) => {
     requestChipBuyInOrCashOut(currentUser.id, amount, type, method, currentUser.name);
     refreshStore();

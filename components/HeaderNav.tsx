@@ -64,16 +64,16 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 Monaco Royal
               </span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#ff2d55]/15 text-[#ff2d55] font-bold border border-[#ff2d55]/30 tracking-wider">
-                POKER CLUB
+                INDIA VIP
               </span>
             </div>
-            <p className="text-[10px] text-gray-400 tracking-wider">Apple Red & Black Production OS</p>
+            <p className="text-[10px] text-gray-400 tracking-wider">Indian Private Poker Club OS</p>
           </div>
         </div>
 
         {/* Center / Right Controls */}
         <div className="flex items-center space-x-3 sm:space-x-4">
-          {/* Chip Balance Pill */}
+          {/* Indian Rupee Chip Balance Pill */}
           <div className="hidden sm:flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-[#0e0e14] border border-[#ff2d55]/40 shadow-inner">
             <div className="w-5 h-5 rounded-full bg-gradient-to-r from-[#ff375f] to-[#e50914] flex items-center justify-center shadow">
               <Coins className="w-3 h-3 text-white" />
@@ -81,7 +81,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             <div className="flex flex-col text-left">
               <span className="text-[9px] uppercase tracking-wider text-gray-400 font-medium">Chips</span>
               <span className="text-xs font-bold font-mono text-[#ff2d55]">
-                ${currentUser.chipBalance.toLocaleString()}
+                ₹{currentUser.chipBalance.toLocaleString('en-IN')}
               </span>
             </div>
           </div>
@@ -129,7 +129,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
                   <div className="flex items-center space-x-2">
                     <Sparkles className="w-4 h-4 text-[#ff2d55]" />
-                    <h4 className="text-xs font-bold text-white">Notifications</h4>
+                    <h4 className="text-xs font-bold text-white">Notifications Feed</h4>
                   </div>
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#ff2d55]/20 text-[#ff2d55] font-bold">
                     {userNotifs.length} total
@@ -169,7 +169,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             )}
           </div>
 
-          {/* User Account Switcher / Auth */}
+          {/* User Account Switcher */}
           <div className="relative flex items-center space-x-2">
             <button
               onClick={() => setShowUserDropdown(!showUserDropdown)}
@@ -196,7 +196,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             {showUserDropdown && (
               <div className="absolute right-0 top-12 w-64 red-glass p-3 z-50 shadow-2xl rounded-2xl border border-[#ff2d55]/40">
                 <p className="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider mb-2 px-2">
-                  Switch Active User
+                  Switch Indian Member Account
                 </p>
                 <div className="space-y-1 max-h-60 overflow-y-auto">
                   {allUsers.map((u) => (
@@ -219,7 +219,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                           <div className="text-[9px] text-gray-400">{u.role} • {u.kycStatus}</div>
                         </div>
                       </div>
-                      <span className="text-[10px] text-[#ff2d55] font-mono">${(u.chipBalance / 1000).toFixed(0)}k</span>
+                      <span className="text-[10px] text-[#ff2d55] font-mono">₹{(u.chipBalance / 100000).toFixed(1)}L</span>
                     </button>
                   ))}
                 </div>

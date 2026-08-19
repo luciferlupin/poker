@@ -73,18 +73,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [inspectUser, setInspectUser] = useState<User | null>(null);
 
   const [chipModalUser, setChipModalUser] = useState<User | null>(null);
-  const [chipModalAmount, setChipModalAmount] = useState<number>(5000);
+  const [chipModalAmount, setChipModalAmount] = useState<number>(500000);
   const [chipModalIsCredit, setChipModalIsCredit] = useState<boolean>(true);
   const [chipModalNotes, setChipModalNotes] = useState<string>('');
 
   const [showCreateTableModal, setShowCreateTableModal] = useState<boolean>(false);
   const [newTableForm, setNewTableForm] = useState({
-    name: 'Macau High Stakes Hold\'em',
+    name: 'Goa Offshore High Stakes Hold\'em',
     gameType: 'TEXAS_HOLDEM' as any,
-    minBuyIn: 5000,
-    maxBuyIn: 50000,
-    smallBlind: 50,
-    bigBlind: 100,
+    minBuyIn: 100000,
+    maxBuyIn: 1000000,
+    smallBlind: 1000,
+    bigBlind: 2000,
     maxSeats: 6,
     status: 'OPEN' as any,
   });
@@ -104,13 +104,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Recharts Sample Data
   const chartLineData = [
-    { day: 'Mon', volume: 120000, chips: 450000 },
-    { day: 'Tue', volume: 180000, chips: 480000 },
-    { day: 'Wed', volume: 240000, chips: 520000 },
-    { day: 'Thu', volume: 210000, chips: 590000 },
-    { day: 'Fri', volume: 380000, chips: 640000 },
-    { day: 'Sat', volume: 510000, chips: 720000 },
-    { day: 'Sun', volume: 490000, chips: 780000 },
+    { day: 'Mon', volume: 1200000, chips: 4500000 },
+    { day: 'Tue', volume: 1800000, chips: 4800000 },
+    { day: 'Wed', volume: 2400000, chips: 5200000 },
+    { day: 'Thu', volume: 2100000, chips: 5900000 },
+    { day: 'Fri', volume: 3800000, chips: 6400000 },
+    { day: 'Sat', volume: 5100000, chips: 7200000 },
+    { day: 'Sun', volume: 4900000, chips: 7800000 },
   ];
 
   const pieColors = ['#ff2d55', '#ff375f', '#e50914', '#b30012'];
@@ -140,7 +140,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     if (!chipModalUser) return;
     onAdjustChips(chipModalUser.id, chipModalAmount, chipModalIsCredit, chipModalNotes);
     setChipModalUser(null);
-    alert(`Successfully ${chipModalIsCredit ? 'credited' : 'deducted'} ${chipModalAmount.toLocaleString()} chips for ${chipModalUser.name}`);
+    alert(`Successfully ${chipModalIsCredit ? 'credited' : 'deducted'} ₹${chipModalAmount.toLocaleString('en-IN')} chips for ${chipModalUser.name}`);
   };
 
   const handleTableCreateSubmit = (e: React.FormEvent) => {
@@ -165,9 +165,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       <div className="flex items-center space-x-1.5 overflow-x-auto pb-2 border-b border-[#ff2d55]/25">
         {[
           { id: 'analytics', label: 'Executive Analytics', icon: TrendingUp },
-          { id: 'kyc', label: 'KYC Queue', icon: ShieldCheck, badge: kycRecords.filter((k) => k.status === 'PENDING').length },
+          { id: 'kyc', label: 'Aadhaar / PAN Queue', icon: ShieldCheck, badge: kycRecords.filter((k) => k.status === 'PENDING').length },
           { id: 'users', label: 'Member Directory', icon: Users },
-          { id: 'wallet', label: 'Chip Ledger', icon: Coins },
+          { id: 'wallet', label: 'Rupee Ledger', icon: Coins },
           { id: 'tables', label: 'Poker Rooms', icon: Flame },
           { id: 'memberships', label: 'Plans', icon: Crown },
           { id: 'notifications', label: 'Broadcast', icon: Bell },
@@ -216,7 +216,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
-                <span>Pending KYC</span>
+                <span>Pending Aadhaar/PAN</span>
                 <ShieldAlert className="w-4 h-4 text-amber-400" />
               </div>
               <div className="text-3xl font-extrabold text-amber-400 font-mono">{analytics.pendingKyc}</div>
@@ -225,22 +225,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
-                <span>Chips Circulation</span>
+                <span>Chips Circulation (INR)</span>
                 <Coins className="w-4 h-4 text-[#ff2d55]" />
               </div>
               <div className="text-3xl font-extrabold text-[#ff2d55] font-mono">
-                ${(analytics.totalChipsCirculation / 1000).toFixed(0)}k
+                ₹{(analytics.totalChipsCirculation / 100000).toFixed(1)} Lakh
               </div>
               <p className="text-[10px] text-gray-400">Total player balance</p>
             </div>
 
             <div className="red-glass p-5 rounded-3xl space-y-2 border border-[#ff2d55]/30">
               <div className="flex justify-between items-center text-xs text-gray-400">
-                <span>Monthly Revenue</span>
+                <span>Monthly Revenue (INR)</span>
                 <DollarSign className="w-4 h-4 text-emerald-400" />
               </div>
               <div className="text-3xl font-extrabold text-emerald-400 font-mono">
-                ${analytics.monthlyRevenue.toLocaleString()}
+                ₹{analytics.monthlyRevenue.toLocaleString('en-IN')}
               </div>
               <p className="text-[10px] text-gray-400">VIP Subscription dues</p>
             </div>
@@ -251,7 +251,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <div className="lg:col-span-2 red-glass p-6 rounded-3xl space-y-4 border border-[#ff2d55]/30">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-bold text-white font-serif">7-Day Chip Circulation & Volume</h3>
+                  <h3 className="text-sm font-bold text-white font-serif">7-Day Chip Circulation & Rupee Volume</h3>
                   <p className="text-xs text-gray-400">Throughput transaction analysis</p>
                 </div>
                 <span className="text-xs px-2.5 py-1 rounded-full bg-[#ff2d55]/20 text-[#ff2d55] font-mono font-bold">
@@ -262,7 +262,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartLineData}>
                     <XAxis dataKey="day" stroke="#686873" fontSize={11} />
-                    <YAxis stroke="#686873" fontSize={11} tickFormatter={(v) => `$${v / 1000}k`} />
+                    <YAxis stroke="#686873" fontSize={11} tickFormatter={(v) => `₹${v / 100000}L`} />
                     <Tooltip
                       contentStyle={{ backgroundColor: '#000000', borderColor: '#ff2d55', borderRadius: '14px' }}
                       labelStyle={{ color: '#ff2d55', fontWeight: 'bold' }}
@@ -309,7 +309,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
-              <h2 className="text-base font-bold text-white font-serif">KYC Verification Queue</h2>
+              <h2 className="text-base font-bold text-white font-serif">Aadhaar & PAN KYC Queue</h2>
               <p className="text-xs text-gray-400">Inspect submitted identity documents and selfies</p>
             </div>
             <div className="flex items-center space-x-2">
@@ -340,7 +340,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <th className="py-3 px-3">Applicant Name</th>
                   <th className="py-3 px-3">Gov ID Type</th>
                   <th className="py-3 px-3">ID Number</th>
-                  <th className="py-3 px-3">Country</th>
+                  <th className="py-3 px-3">City</th>
                   <th className="py-3 px-3">Submitted</th>
                   <th className="py-3 px-3">Status</th>
                   <th className="py-3 px-3 text-right">Action</th>
@@ -355,7 +355,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     </td>
                     <td className="py-3 px-3 text-gray-300 font-mono">{k.govIdType}</td>
                     <td className="py-3 px-3 text-gray-300 font-mono">{k.govIdNumber}</td>
-                    <td className="py-3 px-3 text-gray-300">{k.country}</td>
+                    <td className="py-3 px-3 text-gray-300">{k.city}</td>
                     <td className="py-3 px-3 text-gray-400">{new Date(k.submittedAt).toLocaleDateString()}</td>
                     <td className="py-3 px-3">
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400">
@@ -386,8 +386,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
-              <h2 className="text-base font-bold text-white font-serif">Club Member Directory</h2>
-              <p className="text-xs text-gray-400">Manage member profiles, balances, and permissions</p>
+              <h2 className="text-base font-bold text-white font-serif">Indian Member Directory</h2>
+              <p className="text-xs text-gray-400">Manage member profiles, Rupee balances, and permissions</p>
             </div>
             <input
               type="text"
@@ -406,7 +406,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <th className="py-3 px-3">Role</th>
                   <th className="py-3 px-3">VIP Tier</th>
                   <th className="py-3 px-3">KYC Status</th>
-                  <th className="py-3 px-3">Chip Balance</th>
+                  <th className="py-3 px-3">Chip Balance (INR)</th>
                   <th className="py-3 px-3 text-right">Actions</th>
                 </tr>
               </thead>
@@ -429,7 +429,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         {u.kycStatus}
                       </span>
                     </td>
-                    <td className="py-3 px-3 font-mono font-bold text-white">${u.chipBalance.toLocaleString()}</td>
+                    <td className="py-3 px-3 font-mono font-bold text-white">₹{u.chipBalance.toLocaleString('en-IN')}</td>
                     <td className="py-3 px-3 text-right">
                       <button
                         onClick={() => setChipModalUser(u)}
@@ -451,7 +451,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex items-center justify-between red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
-              <h2 className="text-base font-bold text-white font-serif">Global Chip Ledger</h2>
+              <h2 className="text-base font-bold text-white font-serif">Rupee Chip Ledger</h2>
               <p className="text-xs text-gray-400">Complete audit trail of player chip balances</p>
             </div>
             <div className="flex items-center space-x-2">
@@ -471,7 +471,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <th className="py-3 px-3">TXN Code</th>
                   <th className="py-3 px-3">User Name</th>
                   <th className="py-3 px-3">Type</th>
-                  <th className="py-3 px-3">Amount</th>
+                  <th className="py-3 px-3">Amount (INR)</th>
                   <th className="py-3 px-3">Method</th>
                   <th className="py-3 px-3">Status</th>
                   <th className="py-3 px-3">Date</th>
@@ -483,7 +483,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     <td className="py-3 px-3 font-mono font-bold text-[#ff2d55]">{t.txnCode}</td>
                     <td className="py-3 px-3 text-white font-medium">{t.userName}</td>
                     <td className="py-3 px-3 text-gray-300">{t.type.replace(/_/g, ' ')}</td>
-                    <td className="py-3 px-3 font-mono font-bold text-white">${t.amount.toLocaleString()}</td>
+                    <td className="py-3 px-3 font-mono font-bold text-white">₹{t.amount.toLocaleString('en-IN')}</td>
                     <td className="py-3 px-3 text-gray-400">{t.method || 'SYSTEM'}</td>
                     <td className="py-3 px-3 text-emerald-400 font-bold">{t.status}</td>
                     <td className="py-3 px-3 text-gray-400">{new Date(t.createdAt).toLocaleDateString()}</td>
@@ -500,7 +500,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="space-y-6">
           <div className="flex items-center justify-between red-glass p-5 rounded-3xl border border-[#ff2d55]/30">
             <div>
-              <h2 className="text-base font-bold text-white font-serif">Poker Rooms & Table Stakes</h2>
+              <h2 className="text-base font-bold text-white font-serif">Indian Poker Rooms & Stakes</h2>
               <p className="text-xs text-gray-400">Launch new tables and set blind limits</p>
             </div>
             <button
@@ -527,11 +527,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <div className="grid grid-cols-2 gap-2 text-xs bg-[#000000]/80 p-3 rounded-2xl border border-[#ff2d55]/20">
                   <div>
                     <span className="text-gray-400 text-[10px] block">Blinds</span>
-                    <strong className="text-[#ff2d55] font-mono">${tbl.smallBlind} / ${tbl.bigBlind}</strong>
+                    <strong className="text-[#ff2d55] font-mono">₹{tbl.smallBlind.toLocaleString('en-IN')} / ₹{tbl.bigBlind.toLocaleString('en-IN')}</strong>
                   </div>
                   <div>
                     <span className="text-gray-400 text-[10px] block">Buy-In Range</span>
-                    <strong className="text-white font-mono">${tbl.minBuyIn.toLocaleString()} - ${tbl.maxBuyIn.toLocaleString()}</strong>
+                    <strong className="text-white font-mono">₹{tbl.minBuyIn.toLocaleString('en-IN')} - ₹{tbl.maxBuyIn.toLocaleString('en-IN')}</strong>
                   </div>
                 </div>
 
@@ -559,7 +559,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
 
             <div className="p-5 rounded-2xl bg-[#000000]/80 border border-[#ff2d55]/20 space-y-3">
-              <h4 className="text-xs font-bold text-white">KYC Compliance Report</h4>
+              <h4 className="text-xs font-bold text-white">Aadhaar/PAN Compliance Report</h4>
               <p className="text-xs text-gray-400">Identity verification records & notes.</p>
               <div className="flex space-x-2">
                 <button onClick={() => exportKycReportPDF(kycRecords)} className="btn-red-pill px-3 py-1.5 text-xs">PDF</button>
@@ -569,7 +569,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="p-5 rounded-2xl bg-[#000000]/80 border border-[#ff2d55]/20 space-y-3">
               <h4 className="text-xs font-bold text-white">Chip Circulation Report</h4>
-              <p className="text-xs text-gray-400">Summary of total member balances.</p>
+              <p className="text-xs text-gray-400">Summary of total member Rupee balances.</p>
               <div className="flex space-x-2">
                 <button onClick={() => exportChipCirculationPDF(users)} className="btn-red-pill px-3 py-1.5 text-xs">PDF</button>
                 <button onClick={() => exportChipCirculationExcel(users)} className="btn-glass-red px-3 py-1.5 text-xs font-bold">Excel</button>
@@ -585,7 +585,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <div className="red-glass-bright p-6 sm:p-8 rounded-3xl max-w-2xl w-full space-y-6 border border-[#ff2d55] shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#ff2d55]/20 pb-3">
               <div>
-                <h3 className="text-base font-bold text-white font-serif">KYC Inspection</h3>
+                <h3 className="text-base font-bold text-white font-serif">Aadhaar / PAN Inspection</h3>
                 <p className="text-xs text-gray-300">{inspectKyc.fullName} ({inspectKyc.email})</p>
               </div>
               <button onClick={() => setInspectKyc(null)} className="text-gray-400 hover:text-white">✕</button>
@@ -593,7 +593,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div className="space-y-1">
-                <span className="text-[10px] uppercase font-bold text-[#ff2d55]">Submitted ID Document</span>
+                <span className="text-[10px] uppercase font-bold text-[#ff2d55]">Submitted ID ({inspectKyc.govIdType})</span>
                 <img src={inspectKyc.idDocUrl} alt="" className="w-full h-40 object-cover rounded-2xl border border-[#ff2d55]/40" />
               </div>
               <div className="space-y-1">
@@ -631,21 +631,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-3xl flex items-center justify-center p-4">
           <div className="red-glass-bright p-6 sm:p-8 rounded-3xl max-w-md w-full space-y-6 border border-[#ff2d55]">
             <div className="flex items-center justify-between border-b border-[#ff2d55]/20 pb-3">
-              <h3 className="text-base font-bold text-white font-serif">Chip Adjustment</h3>
+              <h3 className="text-base font-bold text-white font-serif">Rupee Chip Adjustment</h3>
               <button onClick={() => setChipModalUser(null)} className="text-gray-400 hover:text-white">✕</button>
             </div>
 
             <form onSubmit={handleChipSubmit} className="space-y-4 text-xs">
               <div>
                 <label className="text-gray-300 block mb-1 font-bold">Target Member</label>
-                <div className="font-bold text-white">{chipModalUser.name} (${chipModalUser.chipBalance.toLocaleString()})</div>
+                <div className="font-bold text-white">{chipModalUser.name} (₹{chipModalUser.chipBalance.toLocaleString('en-IN')})</div>
               </div>
 
               <div>
-                <label className="text-gray-300 block mb-1 font-bold">Chip Amount</label>
+                <label className="text-gray-300 block mb-1 font-bold">Chip Amount (INR)</label>
                 <input
                   type="number"
-                  min={100}
+                  min={10000}
+                  step={50000}
                   value={chipModalAmount}
                   onChange={(e) => setChipModalAmount(Number(e.target.value))}
                   className="w-full red-input p-3 font-bold font-mono text-[#ff2d55]"

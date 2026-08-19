@@ -1,22 +1,25 @@
-export type UserRole = 'MEMBER' | 'ADMIN';
+export type UserRole = 'MEMBER' | 'ADMIN' | 'STAFF';
+
 export type KycStatus = 'NOT_STARTED' | 'PENDING' | 'VERIFIED' | 'REJECTED' | 'SUSPENDED';
-export type MembershipTier = 'REGULAR' | 'GOLD_VIP' | 'PLATINUM' | 'DIAMOND';
+
+export type GovIdType = 'AADHAAR' | 'PAN_CARD' | 'DRIVING_LICENSE' | 'PASSPORT' | 'VOTER_ID' | 'STATE_ID' | 'NATIONAL_ID';
+
+export type MembershipTier = 'ROYAL_VIP' | 'PLATINUM_HIGH_ROLLER' | 'GOLD_CLUB' | 'SILVER';
 
 export interface User {
   id: string;
-  playerCode: string;
   name: string;
-  email: string;
   phone: string;
+  email: string;
+  playerCode: string;
   role: UserRole;
-  kycStatus: KycStatus;
   membershipTier: MembershipTier;
+  kycStatus: KycStatus;
   chipBalance: number;
   avatarUrl: string;
-  createdAt: string;
+  joinedDate: string;
+  createdAt?: string;
 }
-
-export type GovIdType = 'PASSPORT' | 'DRIVING_LICENSE' | 'NATIONAL_ID' | 'STATE_ID';
 
 export interface KycRecord {
   id: string;
@@ -36,41 +39,31 @@ export interface KycRecord {
   selfieUrl: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
-  referralSource: string;
+  referralSource?: string;
   submittedAt: string;
   reviewedAt?: string;
   reviewedBy?: string;
+  status: KycStatus;
   notes?: string;
-  status: 'PENDING' | 'VERIFIED' | 'REJECTED' | 'SUSPENDED';
 }
 
-export type TransactionType =
-  | 'CHIP_BUY_IN'
-  | 'CHIP_CASH_OUT'
-  | 'ADMIN_CREDIT'
-  | 'ADMIN_DEBIT'
-  | 'GAME_WIN'
-  | 'GAME_RAKE'
-  | 'MEMBERSHIP_FEE';
+export type TxnType = 'CHIP_BUY_IN' | 'CHIP_CASH_OUT' | 'TABLE_WIN' | 'TABLE_LOSS' | 'ADMIN_CREDIT' | 'ADMIN_DEDUCT' | 'ADMIN_DEBIT';
 
-export type PaymentMethod = 'BANK_WIRE' | 'CRYPTO' | 'CASH' | 'VIP_CREDIT' | 'SYSTEM';
+export type SettlementMethod = 'UPI' | 'IMPS_BANK_TRANSFER' | 'BANK_WIRE' | 'CRYPTO' | 'CASH' | 'VIP_CREDIT' | 'SYSTEM';
 
 export interface Transaction {
   id: string;
   txnCode: string;
   userId: string;
   userName: string;
+  type: TxnType;
   amount: number;
-  type: TransactionType;
-  method?: PaymentMethod;
-  actionBy: string;
+  method?: SettlementMethod;
   status: 'COMPLETED' | 'PENDING' | 'REJECTED';
-  notes?: string;
+  actionBy: string;
   createdAt: string;
+  notes?: string;
 }
-
-export type GameType = 'TEXAS_HOLDEM' | 'OMAHA_PLO' | 'CASH_GAME' | 'TOURNAMENT';
-export type TableStatus = 'OPEN' | 'RUNNING' | 'PAUSED' | 'CLOSED';
 
 export interface SeatedPlayer {
   userId: string;
@@ -83,22 +76,22 @@ export interface SeatedPlayer {
 export interface PokerTable {
   id: string;
   name: string;
-  gameType: GameType;
+  gameType: 'TEXAS_HOLDEM' | 'OMAHA_PLO' | 'TOURNAMENT' | 'VIP_PRIVATE';
   minBuyIn: number;
   maxBuyIn: number;
   smallBlind: number;
   bigBlind: number;
   maxSeats: number;
   occupiedSeats: number;
-  status: TableStatus;
   seatedPlayers: SeatedPlayer[];
+  status: 'OPEN' | 'RUNNING' | 'CLOSED';
   createdAt: string;
 }
 
 export interface MembershipPlan {
   id: string;
-  name: string;
   tier: MembershipTier;
+  name: string;
   priceMonthly: number;
   maxTableLimit: number;
   cashoutFeePercent: number;
@@ -130,8 +123,8 @@ export interface AnalyticsSummary {
   totalMembers: number;
   verifiedMembers: number;
   pendingKyc: number;
-  activeTables: number;
   totalChipsCirculation: number;
-  dailyTransactionsVolume: number;
   monthlyRevenue: number;
+  activeTables?: number;
+  dailyTransactionsVolume?: number;
 }
