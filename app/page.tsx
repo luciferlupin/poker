@@ -5,6 +5,7 @@ import { HeaderNav } from '@/components/HeaderNav';
 import { MemberPortal } from '@/components/MemberPortal';
 import { AdminDashboard } from '@/components/AdminDashboard';
 import { AuthModal } from '@/components/AuthModal';
+import { OnboardingWizard } from '@/components/OnboardingWizard';
 import {
   getStoreData,
   approveOrRejectKyc,
@@ -15,12 +16,14 @@ import {
   saveStoreData,
 } from '@/lib/store';
 import { User, KycRecord, NotificationItem } from '@/lib/types';
+import { ShieldCheck, ArrowRight, Crown, Sparkles, LogIn } from 'lucide-react';
 
 export default function Home() {
   const [store, setStore] = useState(getStoreData());
   const [currentRole, setCurrentRole] = useState<'MEMBER' | 'ADMIN'>('MEMBER');
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   // Active user state
   const [currentUser, setCurrentUser] = useState<User>(
@@ -46,6 +49,7 @@ export default function Home() {
     if (role === 'ADMIN') {
       const adminUser = store.users.find((u) => u.role === 'ADMIN') || store.users[0];
       setCurrentUser(adminUser);
+      setIsAuthenticated(true);
     } else {
       const memberUser = store.users.find((u) => u.id === 'usr_2') || store.users[0];
       setCurrentUser(memberUser);
@@ -54,6 +58,7 @@ export default function Home() {
 
   const handleSwitchUser = (user: User) => {
     setCurrentUser(user);
+    setIsAuthenticated(true);
     if (user.role === 'ADMIN') {
       setCurrentRole('ADMIN');
     } else {
@@ -61,30 +66,30 @@ export default function Home() {
     }
   };
 
-  // 1. Submit KYC
-  const handleSubmitKyc = (formData: Partial<KycRecord>) => {
+  // Mandatory Onboarding Wizard Submission
+  const handleCompleteWizard = (formData: Partial<KycRecord>) => {
     const existingIndex = store.kycRecords.findIndex((k) => k.userId === currentUser.id);
     const newKyc: KycRecord = {
       id: existingIndex !== -1 ? store.kycRecords[existingIndex].id : `kyc_${Date.now()}`,
       userId: currentUser.id,
       fullName: formData.fullName || currentUser.name,
-      dob: formData.dob || '1990-01-01',
+      dob: formData.dob || '1992-08-14',
       gender: formData.gender || 'MALE',
       phone: formData.phone || currentUser.phone,
       email: formData.email || currentUser.email,
-      address: formData.address || '123 Mayfair St',
-      city: formData.city || 'London',
-      state: formData.state || 'Greater London',
-      country: formData.country || 'United Kingdom',
+      address: formData.address || '450 Park Avenue',
+      city: formData.city || 'New York',
+      state: formData.state || 'NY',
+      country: formData.country || 'United States',
       govIdType: formData.govIdType || 'PASSPORT',
-      govIdNumber: formData.govIdNumber || 'P900011',
+      govIdNumber: formData.govIdNumber || 'P89302194',
       idDocUrl: formData.idDocUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600',
       selfieUrl: formData.selfieUrl || currentUser.avatarUrl,
-      emergencyContactName: formData.emergencyContactName || 'Emergency Contact',
-      emergencyContactPhone: formData.emergencyContactPhone || '+1 555 000 1111',
-      referralSource: formData.referralSource || 'Direct Registration',
+      emergencyContactName: formData.emergencyContactName || 'Viktor Rostova',
+      emergencyContactPhone: formData.emergencyContactPhone || '+1 (555) 293-8899',
+      referralSource: formData.referralSource || 'Club Invitation',
       submittedAt: new Date().toISOString(),
-      status: 'PENDING',
+      status: 'VERIFIED',
     };
 
     if (existingIndex !== -1) {
@@ -95,24 +100,24 @@ export default function Home() {
 
     const uIdx = store.users.findIndex((u) => u.id === currentUser.id);
     if (uIdx !== -1) {
-      store.users[uIdx].kycStatus = 'PENDING';
+      store.users[uIdx].kycStatus = 'VERIFIED';
     }
 
     store.auditLogs.unshift({
       id: `log_${Date.now()}`,
-      action: 'KYC_SUBMITTED',
+      action: 'ONBOARDING_COMPLETED',
       actorId: currentUser.id,
       actorName: currentUser.name,
       targetId: newKyc.id,
-      details: `User ${currentUser.name} (${currentUser.playerCode}) submitted KYC verification details`,
+      details: `User ${currentUser.name} completed 3-step KYC wizard & unlocked Poker Dashboard`,
       createdAt: new Date().toISOString(),
     });
 
     saveStoreData(store);
     refreshStore();
+    alert('KYC Profile & Verification completed! Poker Dashboard is now unlocked.');
   };
 
-  // 2. Admin Review KYC
   const handleReviewKyc = (
     kycId: string,
     status: 'VERIFIED' | 'REJECTED' | 'SUSPENDED',
@@ -122,7 +127,6 @@ export default function Home() {
     refreshStore();
   };
 
-  // 3. Admin Adjust Chips
   const handleAdjustChips = (
     userId: string,
     amount: number,
@@ -133,7 +137,6 @@ export default function Home() {
     refreshStore();
   };
 
-  // 4. Member Request Buy-In / Cash-Out
   const handleRequestChips = (
     amount: number,
     type: 'CHIP_BUY_IN' | 'CHIP_CASH_OUT',
@@ -143,13 +146,11 @@ export default function Home() {
     refreshStore();
   };
 
-  // 5. Admin Create Table
   const handleCreateTable = (tableData: any) => {
     createNewPokerTable(tableData, currentUser.name);
     refreshStore();
   };
 
-  // 6. Member Join Table
   const handleJoinTable = (tableId: string) => {
     const tableIndex = store.tables.findIndex((t) => t.id === tableId);
     if (tableIndex === -1) return;
@@ -180,7 +181,6 @@ export default function Home() {
     alert(`Successfully seated at "${table.name}" with $${Math.min(table.maxBuyIn, currentUser.chipBalance).toLocaleString()} stack!`);
   };
 
-  // 7. Member Leave Table
   const handleLeaveTable = (tableId: string) => {
     const tableIndex = store.tables.findIndex((t) => t.id === tableId);
     if (tableIndex === -1) return;
@@ -195,7 +195,6 @@ export default function Home() {
     alert(`You stood up and left table "${table.name}". Chips returned to wallet.`);
   };
 
-  // 8. Broadcast Notification
   const handleBroadcastNotif = (
     title: string,
     message: string,
@@ -245,7 +244,34 @@ export default function Home() {
 
       {/* Main Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6">
-        {currentRole === 'MEMBER' ? (
+        {!isAuthenticated ? (
+          /* Unauthenticated Landing State */
+          <div className="text-center py-20 max-w-xl mx-auto space-y-6">
+            <div className="w-16 h-16 rounded-3xl bg-[#ff2d55]/20 border border-[#ff2d55]/40 flex items-center justify-center mx-auto">
+              <Crown className="w-8 h-8 text-[#ff2d55]" />
+            </div>
+            <h1 className="text-3xl font-extrabold text-white font-serif">
+              Monaco Royal Poker Club
+            </h1>
+            <p className="text-sm text-gray-400">
+              High-Stakes Private Operating System. Authenticate to begin onboarding.
+            </p>
+            <button
+              onClick={() => setIsAuthOpen(true)}
+              className="btn-red-pill px-8 py-3 text-xs font-bold shadow-xl inline-flex items-center space-x-2"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Sign In / Mobile OTP Login</span>
+            </button>
+          </div>
+        ) : currentRole === 'MEMBER' && currentUser.kycStatus === 'NOT_STARTED' ? (
+          /* Mandatory Step 2: KYC & Profile Onboarding Wizard */
+          <OnboardingWizard
+            currentUser={currentUser}
+            onCompleteWizard={handleCompleteWizard}
+          />
+        ) : currentRole === 'MEMBER' ? (
+          /* Step 3: Full Member Poker Dashboard Unlocked */
           <MemberPortal
             currentUser={currentUser}
             kycRecord={userKycRecord}
@@ -253,12 +279,13 @@ export default function Home() {
             tables={store.tables}
             memberships={store.memberships}
             notifications={store.notifications}
-            onSubmitKyc={handleSubmitKyc}
+            onSubmitKyc={handleCompleteWizard}
             onRequestChips={handleRequestChips}
             onJoinTable={handleJoinTable}
             onLeaveTable={handleLeaveTable}
           />
         ) : (
+          /* Admin Management Dashboard */
           <AdminDashboard
             currentUser={currentUser}
             users={store.users}
@@ -290,7 +317,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
             <span className="font-bold text-[#ff2d55]">MONACO ROYAL POKER CLUB</span>
-            <span className="text-[10px] text-gray-500 font-mono">v3.0 Production Ready</span>
+            <span className="text-[10px] text-gray-500 font-mono">v3.2 Gated Onboarding</span>
           </div>
           <p className="text-[11px]">
             Strictly Private & Confidential • High Stakes Operating System
